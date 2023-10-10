@@ -10,7 +10,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54d21f6ece3b46479f0c328f8c6007e0, type: 3}
   m_Name: Dark to Light Green - Vertical
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   topLeft: {r: 0, g: .661764741, b: 0, a: 1}
   topRight: {r: 0, g: .573529422, b: .00224910071, a: 1}
   bottomLeft: {r: .525490224, g: 1, b: .490196109, a: 1}

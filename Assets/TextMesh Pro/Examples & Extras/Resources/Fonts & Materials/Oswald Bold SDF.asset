@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Oswald Bold SDF Material
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords:
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Oswald Bold SDF
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   hashCode: 1490843414
   material: {fileID: 2147374}
   materialHashCode: 1112331510
@@ -191,7 +191,7 @@ MonoBehaviour:
   fallbackFontAssets: []
   m_FallbackFontAssetTable: []
   m_CreationSettings:
-    sourceFontFileName: 
+    sourceFontFileName:
     sourceFontFileGUID: c9f6d0e7bc8541498c9a4799ba184ede
     pointSizeSamplingMode: 1
     pointSize: 90
@@ -202,7 +202,7 @@ MonoBehaviour:
     characterSetSelectionMode: 6
     characterSequence: 20-7E,A0,2026
     referencedFontAssetGUID: 0161d805a3764c089bef00bfe00793f5
-    referencedTextAssetGUID: 
+    referencedTextAssetGUID:
     fontStyle: 0
     fontStyleModifier: 0
     renderMode: 4165
@@ -290,8 +290,8 @@ Texture2D:
   m_LightmapFormat: 0
   m_ColorSpace: 0
   image data: 0
-  _typelessdata: 
+  _typelessdata:
   m_StreamData:
     offset: 0
     size: 0
-    path: 
+    path:

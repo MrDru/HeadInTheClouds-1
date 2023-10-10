@@ -361,7 +361,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -224}
+  m_AnchoredPosition: {x: -2016, y: -224}
   m_SizeDelta: {x: 1024, y: 512}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1167614765
@@ -671,7 +671,7 @@ MonoBehaviour:
   _scoreEffect: {fileID: 2999403012931729087, guid: fb2754def2d813444bf74d9788574b74, type: 3}
   _scoreText: {fileID: 1167614765}
   _pointClip: {fileID: 8300000, guid: 253d8ca0700930d49abfd54b79a089aa, type: 3}
-  _spawnTime: 1.6
+  _spawnTime: 2.5
   _scorePrefab: {fileID: 7396441271690924941, guid: 8a6575f7faf9d0348a2e65e413109c0c, type: 3}
   _loseClip: {fileID: 8300000, guid: 227c57a948c929b46be8e7b034a24d3a, type: 3}
 --- !u!1001 &1906231830

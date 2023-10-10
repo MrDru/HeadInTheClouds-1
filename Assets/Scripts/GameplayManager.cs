@@ -37,43 +37,45 @@ public class GameplayManager : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0) && !hasGameFinished)
         {
-            if(CurrentScore == null)
-            {
-                GameEnded();
-                return;
-            }
-
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-            if(!hit.collider || !hit.collider.gameObject.CompareTag("Block"))
-            {
-                GameEnded();
-                return;
-            }
+            // if(!hit.collider || !hit.collider.gameObject.CompareTag("Block"))
+            // {
+            //     GameEnded();
+            //     return;
+            // }
 
             int currentScoreId = CurrentScore.ColorId;
             int clickedScoreId = hit.collider.gameObject.GetComponent<Player>().ColorId;
+            Score ScoreId = hit.collider.gameObject.GetComponent<Score>();
+            Player clickedScore = hit.collider.gameObject.GetComponent<Player>();
 
+            Debug.Log("ScoreId Id: " + ScoreId);
+            Debug.Log("Clicked Score Id: " + clickedScoreId);
 
-            if(currentScoreId != clickedScoreId)
+            // if(currentScoreId != clickedScoreId)
+            // {
+            //     GameEnded();
+            //     return;
+            // }
+            foreach(var score in scores)
             {
-                GameEnded();
-                return;
+                Debug.Log("Score Id: " + score.ColorId);
+                if(score.ColorId == clickedScoreId)
+                {
+                    var t = Instantiate(_scoreEffect, score.gameObject.transform.position, Quaternion.identity);
+                    t.Init(Colors[currentScoreId]);
+                    var tempScore = score;
+                    Destroy(clickedScore.gameObject);
+                    Destroy(score.gameObject);
+                    // remove tempScore from scores list
+                    scores.Remove(tempScore);
+                    UpdateScore();
+                    break;
+                }
             }
-
-            var t = Instantiate(_scoreEffect, CurrentScore.gameObject.transform.position, Quaternion.identity);
-            t.Init(Colors[currentScoreId]);
-
-            var tempScore = CurrentScore;
-            if(CurrentScore.NextScore != null)
-            {
-                CurrentScore = CurrentScore.NextScore;
-            }
-            Destroy(tempScore.gameObject);
-
-            UpdateScore();
 
         }
     }
@@ -96,7 +98,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private float _spawnTime;
     [SerializeField] private Score _scorePrefab;
     private Score CurrentScore;
-
+    List<Score> scores = new List<Score>();
     private IEnumerator SpawnScore()
     {
         Score prevScore = null;
@@ -104,7 +106,7 @@ public class GameplayManager : MonoBehaviour
         while(!hasGameFinished)
         {
             var tempScore = Instantiate(_scorePrefab);
-
+            scores.Add(tempScore);
             if(prevScore == null)
             {
                 prevScore = tempScore;

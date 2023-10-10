@@ -15,7 +15,7 @@ public class Score : MonoBehaviour
     private void Awake()
     {
         hasGameFinished = false;
-        transform.position = _spawnPos[Random.Range(0,_spawnPos.Count)];
+        transform.position = new Vector3(-48.1f, Random.Range(-14f, 18f), Random.Range(0, _spawnPos.Count));
         int colorCount = GameplayManager.Instance.Colors.Count;
         ColorId = Random.Range(0, colorCount);
         GetComponent<SpriteRenderer>().color = GameplayManager.Instance.Colors[ColorId];

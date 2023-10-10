@@ -22,6 +22,8 @@ public class MainMenuManager : MonoBehaviour
         {
             StartCoroutine(ShowScore());
         }
+        GameManager.Instance.GoToGameplay();
+
     }
 
     [SerializeField] private float _animationTime;

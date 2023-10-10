@@ -16,7 +16,6 @@ public class GameplayManager : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Instance.GoToGameplay();
         Instance = this;
 
         hasGameFinished = false;
@@ -75,7 +74,7 @@ public class GameplayManager : MonoBehaviour
             Destroy(tempScore.gameObject);
 
             UpdateScore();
-            
+
         }
     }
 

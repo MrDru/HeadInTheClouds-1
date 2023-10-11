@@ -12,7 +12,7 @@ public class GameplayManager : MonoBehaviour
 
     public static GameplayManager Instance;
 
-    public List<Color> Colors;
+    public List<Sprite> Sprites;
     private Player[] players;
     private Player[] start_players;
 
@@ -22,7 +22,7 @@ public class GameplayManager : MonoBehaviour
     {
         level_counter = 0;
         Instance = this;
-
+        Sprites = ThelistOfAllSprites.Instance.editableList;
         hasGameFinished = false;
         // Create an instance of the GameManager class if it doesn't exist
         if (GameManager.Instance == null)
@@ -44,17 +44,18 @@ public class GameplayManager : MonoBehaviour
     #region GAME_LOGIC
 
     [SerializeField] private ScoreEffect _scoreEffect;
-    // Assuming you have a Player class with a ColorId property
+    // Assuming you have a Player class with a SpriteId property
     private void Update()
     {
         foreach(var score in scores)
         {
-                    // if score.position.X > 43
-            if (score.transform.position.x > 43)
-            {
-                scores.Remove(score);
-                Destroy(score.gameObject);
-            }
+            //        // if score.position.X > 43
+            //if (score.transform.position.x > 43)
+            //{
+            //    scores.Remove(score);
+            //    Destroy(score.gameObject);
+            //    continue;
+            //}
         }
         if(Input.GetMouseButtonDown(0) && !hasGameFinished)
         {
@@ -62,13 +63,13 @@ public class GameplayManager : MonoBehaviour
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-            int currentScoreId = CurrentScore.ColorId;
+            int currentScoreId = CurrentScore.SpriteId;
             bool no_player_match = false;
             foreach(var score in scores)
             {
                 foreach (Player player in players)
                     {
-                        if (player.ColorId == score.ColorId)
+                        if (player.SpriteId == score.SpriteId)
                         {
                             no_player_match = true;
                         }
@@ -79,15 +80,15 @@ public class GameplayManager : MonoBehaviour
                     {
                         foreach (Player player in players)
                             {
-                                if (player.ColorId == score.ColorId)
+                                if (player.SpriteId == score.SpriteId)
                                 {
                                     matchingPlayer = player;
                                     break;
                                 }
                             }
-                        // get player component matching ColorId from score.ColorId
+                        // get player component matching SpriteId from score.SpriteId
                         var t = Instantiate(_scoreEffect, score.gameObject.transform.position, Quaternion.identity);
-                        t.Init(Colors[currentScoreId]);
+                        t.Init(Sprites[currentScoreId]);
                         Destroy(score.gameObject);
                         // remove tempScore from scores list
                         scores.Remove(score);
@@ -105,7 +106,7 @@ public class GameplayManager : MonoBehaviour
             players = start_players;
             List<int> randomList = new List<int>();
             int rangeMin = 0;
-            int rangeMax = Colors.Count - 1;
+            int rangeMax = Sprites.Count - 1;
             while (randomList.Count < 3)
             {
                 int randomInt = Random.Range(rangeMin, rangeMax + 1);
@@ -114,13 +115,13 @@ public class GameplayManager : MonoBehaviour
                     randomList.Add(randomInt);
                 }
             }
-            // random the ColorId of the players
+            // random the SpriteId of the players
             for (int i = 0; i < players.Length; i++)
             {
                 int randomIndex = randomList[i];
                 Player player = players[i];
-                player.ColorId = randomIndex;
-                player.GetComponent<SpriteRenderer>().color = Colors[randomIndex];
+                player.SpriteId = randomIndex;
+                player.GetComponent<SpriteRenderer>().sprite = Sprites[randomIndex];
                 // players create on screen
             }
         }
@@ -153,6 +154,7 @@ public class GameplayManager : MonoBehaviour
         while(!hasGameFinished)
         {
             var tempScore = Instantiate(_scorePrefab);
+            _scorePrefab.transform.localScale = new Vector3(2,2,2);
             scores.Add(tempScore);
             if(prevScore == null)
             {

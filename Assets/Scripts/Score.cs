@@ -7,7 +7,7 @@ public class Score : MonoBehaviour
     [SerializeField] private List<Vector3> _spawnPos;
 
     [HideInInspector]
-    public int ColorId;
+    public int SpriteId;
 
     [HideInInspector]
     public Score NextScore;
@@ -18,9 +18,9 @@ public class Score : MonoBehaviour
         _moveSpeed = Random.Range(1.5f, 4.5f);
         hasGameFinished = false;
         transform.position = new Vector3(-48.1f, Random.Range(-14f, 18f), Random.Range(0, _spawnPos.Count));
-        int colorCount = GameplayManager.Instance.Colors.Count;
-        ColorId = Random.Range(0, colorCount);
-        GetComponent<SpriteRenderer>().color = GameplayManager.Instance.Colors[ColorId];
+        int SpriteCount = GameplayManager.Instance.Sprites.Count;
+        SpriteId = Random.Range(0, SpriteCount);
+        GetComponent<SpriteRenderer>().sprite = GameplayManager.Instance.Sprites[SpriteId];
     }
 
     private void FixedUpdate()

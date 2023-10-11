@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int ColorId;
+    public int SpriteId;
 
     private void Awake()
     {
-        GetComponent<SpriteRenderer>().color = GameplayManager.Instance.Colors[ColorId];
+        GetComponent<SpriteRenderer>().sprite = GameplayManager.Instance.Sprites[SpriteId];
     }
 }

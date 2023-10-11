@@ -14,18 +14,28 @@ public class GameplayManager : MonoBehaviour
 
     public List<Color> Colors;
     private Player[] players;
+    private Player[] start_players;
+
     private Player matchingPlayer;
+    private int level_counter;
     private void Awake()
     {
+        level_counter = 0;
         Instance = this;
 
         hasGameFinished = false;
+        // Create an instance of the GameManager class if it doesn't exist
+        if (GameManager.Instance == null)
+        {
+            GameManager.Instance = new GameManager();
+        }
         GameManager.Instance.IsInitialized = true;
 
         score = 0;
         _scoreText.text = ((int)score).ToString();
         StartCoroutine(SpawnScore());
         players = FindObjectsOfType<Player>();
+        start_players = FindObjectsOfType<Player>();
         matchingPlayer = null;
     }
 
@@ -82,11 +92,36 @@ public class GameplayManager : MonoBehaviour
                         // remove tempScore from scores list
                         scores.Remove(score);
                         UpdateScore();
-                        Destroy(matchingPlayer.gameObject);
+                        // Destroy(matchingPlayer.gameObject);
                         Debug.Log("IN");
                         break;
                     }
                 }
+            }
+        }
+        if (level_counter == 3)
+        {
+            level_counter = 0;
+            players = start_players;
+            List<int> randomList = new List<int>();
+            int rangeMin = 0;
+            int rangeMax = Colors.Count - 1;
+            while (randomList.Count < 3)
+            {
+                int randomInt = Random.Range(rangeMin, rangeMax + 1);
+                if (!randomList.Contains(randomInt))
+                {
+                    randomList.Add(randomInt);
+                }
+            }
+            // random the ColorId of the players
+            for (int i = 0; i < players.Length; i++)
+            {
+                int randomIndex = randomList[i];
+                Player player = players[i];
+                player.ColorId = randomIndex;
+                player.GetComponent<SpriteRenderer>().color = Colors[randomIndex];
+                // players create on screen
             }
         }
     }
@@ -102,7 +137,8 @@ public class GameplayManager : MonoBehaviour
     private void UpdateScore()
     {
         score++;
-        SoundManager.Instance.PlaySound(_pointClip);
+        level_counter++;
+        // SoundManager.Instance.PlaySound(_pointClip);
         _scoreText.text = ((int)score).ToString();
     }
 

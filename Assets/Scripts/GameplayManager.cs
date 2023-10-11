@@ -13,7 +13,8 @@ public class GameplayManager : MonoBehaviour
     public static GameplayManager Instance;
 
     public List<Color> Colors;
-
+    private Player[] players;
+    private Player matchingPlayer;
     private void Awake()
     {
         Instance = this;
@@ -24,7 +25,8 @@ public class GameplayManager : MonoBehaviour
         score = 0;
         _scoreText.text = ((int)score).ToString();
         StartCoroutine(SpawnScore());
-
+        players = FindObjectsOfType<Player>();
+        matchingPlayer = null;
     }
 
     #endregion
@@ -32,51 +34,60 @@ public class GameplayManager : MonoBehaviour
     #region GAME_LOGIC
 
     [SerializeField] private ScoreEffect _scoreEffect;
-
+    // Assuming you have a Player class with a ColorId property
     private void Update()
     {
+        foreach(var score in scores)
+        {
+                    // if score.position.X > 43
+            if (score.transform.position.x > 43)
+            {
+                scores.Remove(score);
+                Destroy(score.gameObject);
+            }
+        }
         if(Input.GetMouseButtonDown(0) && !hasGameFinished)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-            // if(!hit.collider || !hit.collider.gameObject.CompareTag("Block"))
-            // {
-            //     GameEnded();
-            //     return;
-            // }
-
             int currentScoreId = CurrentScore.ColorId;
-            int clickedScoreId = hit.collider.gameObject.GetComponent<Player>().ColorId;
-            Score ScoreId = hit.collider.gameObject.GetComponent<Score>();
-            Player clickedScore = hit.collider.gameObject.GetComponent<Player>();
-
-            Debug.Log("ScoreId Id: " + ScoreId);
-            Debug.Log("Clicked Score Id: " + clickedScoreId);
-
-            // if(currentScoreId != clickedScoreId)
-            // {
-            //     GameEnded();
-            //     return;
-            // }
+            bool no_player_match = false;
             foreach(var score in scores)
             {
-                Debug.Log("Score Id: " + score.ColorId);
-                if(score.ColorId == clickedScoreId)
+                foreach (Player player in players)
+                    {
+                        if (player.ColorId == score.ColorId)
+                        {
+                            no_player_match = true;
+                        }
+                    }
+                if (no_player_match)
                 {
-                    var t = Instantiate(_scoreEffect, score.gameObject.transform.position, Quaternion.identity);
-                    t.Init(Colors[currentScoreId]);
-                    var tempScore = score;
-                    Destroy(clickedScore.gameObject);
-                    Destroy(score.gameObject);
-                    // remove tempScore from scores list
-                    scores.Remove(tempScore);
-                    UpdateScore();
-                    break;
+                    if(score.gameObject == hit.collider.gameObject)
+                    {
+                        foreach (Player player in players)
+                            {
+                                if (player.ColorId == score.ColorId)
+                                {
+                                    matchingPlayer = player;
+                                    break;
+                                }
+                            }
+                        // get player component matching ColorId from score.ColorId
+                        var t = Instantiate(_scoreEffect, score.gameObject.transform.position, Quaternion.identity);
+                        t.Init(Colors[currentScoreId]);
+                        Destroy(score.gameObject);
+                        // remove tempScore from scores list
+                        scores.Remove(score);
+                        UpdateScore();
+                        Destroy(matchingPlayer.gameObject);
+                        Debug.Log("IN");
+                        break;
+                    }
                 }
             }
-
         }
     }
 

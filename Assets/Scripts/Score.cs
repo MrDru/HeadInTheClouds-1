@@ -14,6 +14,8 @@ public class Score : MonoBehaviour
 
     private void Awake()
     {
+        // _moveSpeed = random 2 5
+        _moveSpeed = Random.Range(1.5f, 4.5f);
         hasGameFinished = false;
         transform.position = new Vector3(-48.1f, Random.Range(-14f, 18f), Random.Range(0, _spawnPos.Count));
         int colorCount = GameplayManager.Instance.Colors.Count;

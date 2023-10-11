@@ -47,16 +47,16 @@ public class GameplayManager : MonoBehaviour
     // Assuming you have a Player class with a SpriteId property
     private void Update()
     {
-        foreach(var score in scores)
-        {
-            //        // if score.position.X > 43
-            //if (score.transform.position.x > 43)
-            //{
-            //    scores.Remove(score);
-            //    Destroy(score.gameObject);
-            //    continue;
-            //}
-        }
+        //foreach(var score in scores)
+        //{
+        //    //        // if score.position.X > 43
+        //    //if (score.transform.position.x > 43)
+        //    //{
+        //    //    scores.Remove(score);
+        //    //    Destroy(score.gameObject);
+        //    //    continue;
+        //    //}
+        //}
         if(Input.GetMouseButtonDown(0) && !hasGameFinished)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -154,7 +154,7 @@ public class GameplayManager : MonoBehaviour
         while(!hasGameFinished)
         {
             var tempScore = Instantiate(_scorePrefab);
-            _scorePrefab.transform.localScale = new Vector3(2,2,2);
+            _scorePrefab.transform.localScale = new Vector3(4,4,4);
             scores.Add(tempScore);
             if(prevScore == null)
             {

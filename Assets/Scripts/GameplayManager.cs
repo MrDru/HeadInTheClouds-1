@@ -109,7 +109,7 @@ public class GameplayManager : MonoBehaviour
             players = start_players;
             List<int> randomList = new List<int>();
             int rangeMin = 0;
-            int rangeMax =  Mathf.Min(Sprites.Count - 15 + game_level, 24);
+            int rangeMax =  Mathf.Min(Sprites.Count - 15 + game_level*2, 24);
             while (randomList.Count < 3)
             {
                 int randomInt = Random.Range(rangeMin, rangeMax + 1);
@@ -125,7 +125,8 @@ public class GameplayManager : MonoBehaviour
                 Player player = players[i];
                 player.SpriteId = randomIndex;
                 player.GetComponent<SpriteRenderer>().sprite = Sprites[randomIndex];
-                // players create on screen
+                // player random rotation x axis game_level * 5
+                player.transform.rotation = Quaternion.Euler(Random.Range(0, game_level * 5), 0, 0);
             }
         }
     }

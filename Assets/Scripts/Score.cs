@@ -17,7 +17,7 @@ public class Score : MonoBehaviour
         // _moveSpeed = random 2 5
         _moveSpeed = Random.Range(1.5f, 4.5f);
         hasGameFinished = false;
-        transform.position = new Vector3(-48.1f, Random.Range(-8, 18), 0);
+        transform.position = new Vector3(-48.1f, Random.Range(-4, 16), 0);
         int SpriteCount = GameplayManager.Instance.Sprites.Count;
         SpriteId = Random.Range(0, SpriteCount);
         GetComponent<SpriteRenderer>().sprite = GameplayManager.Instance.Sprites[SpriteId];

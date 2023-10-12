@@ -766,7 +766,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1568589151
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!212 &1167614768
 SpriteRenderer:
@@ -807,7 +807,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1568589151
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1024,7 +1024,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1304804999
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 808291d6c553dfe409617c1e83a211d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1110,19 +1110,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4161811287983232899, guid: fda53d2a23480b346a2115a9b894f755, type: 3}
       propertyPath: m_Color.b
-      value: 0.990566
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4161811287983232899, guid: fda53d2a23480b346a2115a9b894f755, type: 3}
       propertyPath: m_Color.g
-      value: 0.9017889
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4161811287983232899, guid: fda53d2a23480b346a2115a9b894f755, type: 3}
       propertyPath: m_Color.r
-      value: 0.9790365
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4161811287983232899, guid: fda53d2a23480b346a2115a9b894f755, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4161811287983232899, guid: fda53d2a23480b346a2115a9b894f755, type: 3}
       propertyPath: m_SortingLayerID
@@ -1187,6 +1187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfa083ebd54ec541adfa2cf520b87bb, type: 3}
   m_Name:
   m_EditorClassIdentifier:
+  game_level: 0
   Sprites: []
   _scoreEffect: {fileID: 2999403012931729087, guid: fb2754def2d813444bf74d9788574b74, type: 3}
   _scoreText: {fileID: 1167614765}
@@ -1345,7 +1346,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8f44262ac9b36f6499c99a0d2bbe45f4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.341
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0

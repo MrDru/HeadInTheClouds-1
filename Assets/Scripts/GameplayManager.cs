@@ -49,16 +49,15 @@ public class GameplayManager : MonoBehaviour
     // Assuming you have a Player class with a SpriteId property
     private void Update()
     {
-        //foreach(var score in scores)
-        //{
-        //    //        // if score.position.X > 43
-        //    //if (score.transform.position.x > 43)
-        //    //{
-        //    //    scores.Remove(score);
-        //    //    Destroy(score.gameObject);
-        //    //    continue;
-        //    //}
-        //}
+        for (int i = scores.Count - 1; i >= 0; i--)
+        {
+            var score = scores[i];
+            if (score.transform.position.x > 50)
+            {
+                scores.RemoveAt(i);
+                Destroy(score.gameObject);
+            }
+        }
         if(Input.GetMouseButtonDown(0) && !hasGameFinished)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -69,36 +68,37 @@ public class GameplayManager : MonoBehaviour
             bool no_player_match = false;
             foreach(var score in scores)
             {
-                foreach (Player player in players)
-                    {
-                        if (player.SpriteId == score.SpriteId)
-                        {
-                            no_player_match = true;
-                        }
-                    }
-                if (no_player_match)
+                if(score.gameObject == hit.collider.gameObject)
                 {
-                    if(score.gameObject == hit.collider.gameObject)
-                    {
-                        foreach (Player player in players)
+                    foreach (Player player in players)
+                        {
+                            if (player.SpriteId == score.SpriteId)
                             {
-                                if (player.SpriteId == score.SpriteId)
-                                {
-                                    matchingPlayer = player;
-                                    break;
-                                }
+                                no_player_match = true;
                             }
-                        // get player component matching SpriteId from score.SpriteId
-                        var t = Instantiate(_scoreEffect, score.gameObject.transform.position, Quaternion.identity);
-                        t.Init(Sprites[currentScoreId]);
-                        Destroy(score.gameObject);
-                        // remove tempScore from scores list
-                        scores.Remove(score);
-                        UpdateScore();
-                        // Destroy(matchingPlayer.gameObject);
-                        Debug.Log("IN");
-                        break;
-                    }
+                        }
+                    if (no_player_match)
+                        {
+
+                            foreach (Player player in players)
+                                {
+                                    if (player.SpriteId == score.SpriteId)
+                                    {
+                                        matchingPlayer = player;
+                                        break;
+                                    }
+                                }
+                            // get player component matching SpriteId from score.SpriteId
+                            var t = Instantiate(_scoreEffect, score.gameObject.transform.position, Quaternion.identity);
+                            t.Init(Sprites[currentScoreId]);
+                            Destroy(score.gameObject);
+                            // remove tempScore from scores list
+                            scores.Remove(score);
+                            UpdateScore();
+                            // Destroy(matchingPlayer.gameObject);
+                            Debug.Log("IN");
+                            break;
+                        }
                 }
             }
         }
@@ -109,7 +109,7 @@ public class GameplayManager : MonoBehaviour
             players = start_players;
             List<int> randomList = new List<int>();
             int rangeMin = 0;
-            int rangeMax = Sprites.Count - 1;
+            int rangeMax =  Mathf.Min(Sprites.Count - 15 + game_level, 24);
             while (randomList.Count < 3)
             {
                 int randomInt = Random.Range(rangeMin, rangeMax + 1);

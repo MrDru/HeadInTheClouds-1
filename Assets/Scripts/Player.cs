@@ -3,11 +3,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int SpriteId;
-    public int num_sprites = 23;
+    GameplayManager gameplayManager = new GameplayManager();
+
     private void Awake()
     {
-        SpriteId = Random.Range(1, num_sprites);
-        Debug.Log("SpriteId: " + SpriteId);
+        int SpriteCount = GameplayManager.Instance.Sprites.Count - 10 + gameplayManager.game_level;
+        SpriteId = Random.Range(1, SpriteCount);
         GetComponent<SpriteRenderer>().sprite = GameplayManager.Instance.Sprites[SpriteId];
     }
 }

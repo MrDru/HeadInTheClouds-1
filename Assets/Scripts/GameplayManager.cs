@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class GameplayManager : MonoBehaviour
 {
     #region START
+    public int game_level;
 
     private bool hasGameFinished;
 
@@ -20,6 +21,7 @@ public class GameplayManager : MonoBehaviour
     private int level_counter;
     private void Awake()
     {
+        game_level = 1;
         level_counter = 0;
         Instance = this;
         Sprites = ThelistOfAllSprites.Instance.editableList;
@@ -102,6 +104,7 @@ public class GameplayManager : MonoBehaviour
         }
         if (level_counter == 3)
         {
+            game_level++;
             level_counter = 0;
             players = start_players;
             List<int> randomList = new List<int>();

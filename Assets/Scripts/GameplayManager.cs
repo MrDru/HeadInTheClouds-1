@@ -19,8 +19,13 @@ public class GameplayManager : MonoBehaviour
 
     private Player matchingPlayer;
     private int level_counter;
+    GameObject goodJob3xObject;
+
     private void Awake()
     {
+        goodJob3xObject = GameObject.Find("good job3x");
+        goodJob3xObject.SetActive(false);
+
         game_level = 1;
         level_counter = 0;
         Instance = this;
@@ -49,6 +54,7 @@ public class GameplayManager : MonoBehaviour
     // Assuming you have a Player class with a SpriteId property
     private void Update()
     {
+
         for (int i = scores.Count - 1; i >= 0; i--)
         {
             var score = scores[i];
@@ -104,6 +110,7 @@ public class GameplayManager : MonoBehaviour
         }
         if (level_counter == 3)
         {
+            StartCoroutine(goodjob());
             game_level++;
             level_counter = 0;
             players = start_players;
@@ -126,11 +133,20 @@ public class GameplayManager : MonoBehaviour
                 player.SpriteId = randomIndex;
                 player.GetComponent<SpriteRenderer>().sprite = Sprites[randomIndex];
                 // player random rotation x axis game_level * 5
-                player.transform.rotation = Quaternion.Euler(Random.Range(0, game_level * 5), 0, 0);
+                player.transform.rotation = Quaternion.Euler(Random.Range(0, game_level * 10), 0, 0);
             }
         }
     }
-
+    public IEnumerator goodjob()
+    {
+        if (goodJob3xObject != null)
+        {
+            goodJob3xObject.SetActive(true);
+            yield return new WaitForSeconds(2);
+            goodJob3xObject.SetActive(false);
+        }
+        Debug.Log("goodjob");
+    }
     #endregion
 
     #region SCORE

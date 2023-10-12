@@ -33,8 +33,8 @@ public class GameplayManager : MonoBehaviour
         }
         GameManager.Instance.IsInitialized = true;
 
-        score = 0;
-        _scoreText.text = ((int)score).ToString();
+        score_txt = 0;
+        _scoreText.text = ((int)score_txt).ToString();
         StartCoroutine(SpawnScore());
         players = FindObjectsOfType<Player>();
         start_players = FindObjectsOfType<Player>();
@@ -134,16 +134,16 @@ public class GameplayManager : MonoBehaviour
 
     #region SCORE
 
-    private float score;
+    private float score_txt;
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private AudioClip _pointClip;
 
     private void UpdateScore()
     {
-        score++;
+        score_txt++;
         level_counter++;
         // SoundManager.Instance.PlaySound(_pointClip);
-        _scoreText.text = ((int)score).ToString();
+        _scoreText.text = ((int)score_txt).ToString();
     }
 
     [SerializeField] private float _spawnTime;
@@ -186,7 +186,7 @@ public class GameplayManager : MonoBehaviour
         hasGameFinished = true;
         GameEnd?.Invoke();
         SoundManager.Instance.PlaySound(_loseClip);
-        GameManager.Instance.CurrentScore = (int)score;
+        GameManager.Instance.CurrentScore = (int)score_txt;
         StartCoroutine(GameOver());
     }
 

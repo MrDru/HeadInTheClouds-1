@@ -12,15 +12,16 @@ public class Score : MonoBehaviour
     [HideInInspector]
     public Score NextScore;
     // Create an instance of the GameplayManager class
-    GameplayManager gameplayManager = new GameplayManager();
+    GameplayManager gameplayManager;
 
     private void Awake()
     {
+        gameplayManager = new GameplayManager();
         // _moveSpeed = random 2 5
         _moveSpeed = Random.Range(1.5f, 4.5f);
         hasGameFinished = false;
         transform.position = new Vector3(-48.1f, Random.Range(-4, 16), 0);
-        int SpriteCount = GameplayManager.Instance.Sprites.Count - 10 + gameplayManager.game_level;
+        int SpriteCount = Mathf.Max(GameplayManager.Instance.Sprites.Count - 10 + gameplayManager.game_level, 24);
         SpriteId = Random.Range(0, SpriteCount);
         GetComponent<SpriteRenderer>().sprite = GameplayManager.Instance.Sprites[SpriteId];
     }

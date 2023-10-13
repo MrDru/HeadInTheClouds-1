@@ -13,17 +13,21 @@ public class Score : MonoBehaviour
     public Score NextScore;
     // Create an instance of the GameplayManager class
     GameplayManager gameplayManager;
-
+    GameObject gameplayManagerObject;
     private void Awake()
     {
-        gameplayManager = new GameplayManager();
+        // get component GameplayManager from object GameplayManager
+        gameplayManagerObject = GameObject.Find("GameplayManager");
+        gameplayManager = gameplayManagerObject.GetComponent<GameplayManager>();
+        int game_level = gameplayManager.get_game_level();
         // _moveSpeed = random 2 5
-        _moveSpeed = Random.Range(1.5f , 4.5f + gameplayManager.game_level*2);
+        _moveSpeed = Random.Range(1.5f , 5f + gameplayManager.game_level);
         hasGameFinished = false;
         transform.position = new Vector3(-48.1f, Random.Range(-4, 16), 0);
-        int SpriteCount = Mathf.Min(GameplayManager.Instance.Sprites.Count - 18 + gameplayManager.game_level, 24);
+        int SpriteCount = Mathf.Min(GameplayManager.Instance.Sprites.Count - 19 + gameplayManager.game_level, 24);
         SpriteId = Random.Range(0, SpriteCount);
         GetComponent<SpriteRenderer>().sprite = GameplayManager.Instance.Sprites[SpriteId];
+        Debug.Log("gameplayManager.game_level: " + gameplayManager.game_level);
     }
 
     private void FixedUpdate()

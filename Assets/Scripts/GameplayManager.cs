@@ -8,7 +8,11 @@ public class GameplayManager : MonoBehaviour
 {
     #region START
     public int game_level;
-
+    // get game_level
+    public int get_game_level()
+    {
+        return game_level;
+    }
     private bool hasGameFinished;
 
     public static GameplayManager Instance;
@@ -28,7 +32,6 @@ public class GameplayManager : MonoBehaviour
     {
         goodJob3xObject = GameObject.Find("good job3x");
         goodJob3xObject.SetActive(false);
-
         game_level = 1;
         level_counter = 0;
         Instance = this;
@@ -48,7 +51,7 @@ public class GameplayManager : MonoBehaviour
         start_players = FindObjectsOfType<Player>();
         matchingPlayer = null;
         audioSource = GetComponent<AudioSource>();
-
+        random_player();
     }
 
     #endregion
@@ -74,8 +77,6 @@ public class GameplayManager : MonoBehaviour
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-
-            int currentScoreId = CurrentScore.SpriteId;
             bool no_player_match = false;
             foreach(var score in scores)
             {
@@ -105,7 +106,7 @@ public class GameplayManager : MonoBehaviour
                                 }
                             // get player component matching SpriteId from score.SpriteId
                             var t = Instantiate(_scoreEffect, score.gameObject.transform.position, Quaternion.identity);
-                            t.Init(Sprites[currentScoreId]);
+                            t.Init(Sprites[score.SpriteId]);
                             Destroy(score.gameObject);
                             // remove tempScore from scores list
                             scores.Remove(score);
@@ -127,30 +128,34 @@ public class GameplayManager : MonoBehaviour
             StartCoroutine(goodjob());
             game_level++;
             level_counter = 0;
-            players = start_players;
-            List<int> randomList = new List<int>();
-            int rangeMin = 0;
-            int rangeMax =  Mathf.Min(Sprites.Count - 18 + game_level*2, 24);
-            while (randomList.Count < 3)
+            random_player();
+        }
+    }
+    private void random_player()
+    {
+        players = start_players;
+        List<int> randomList = new List<int>();
+        int rangeMin = 0;
+        int rangeMax =  Mathf.Min(Sprites.Count - 19 + game_level, 24);
+        while (randomList.Count < 3)
+        {
+            int randomInt = Random.Range(rangeMin, rangeMax + 1);
+            if (!randomList.Contains(randomInt))
             {
-                int randomInt = Random.Range(rangeMin, rangeMax + 1);
-                if (!randomList.Contains(randomInt))
-                {
-                    randomList.Add(randomInt);
-                }
+                randomList.Add(randomInt);
             }
-            // random the SpriteId of the players
-            for (int i = 0; i < players.Length; i++)
-            {
-                int randomIndex = randomList[i];
-                Player player = players[i];
-                player.SpriteId = randomIndex;
-                player.GetComponent<SpriteRenderer>().sprite = Sprites[randomIndex];
-                // player random rotation x axis game_level * 5
-                player.transform.rotation = Quaternion.Euler(Random.Range(0, game_level * 10), 0, 0);
-                // change sprite render color to White
-                player.GetComponent<SpriteRenderer>().color = Color.white;
-            }
+        }
+        // random the SpriteId of the players
+        for (int i = 0; i < players.Length; i++)
+        {
+            int randomIndex = randomList[i];
+            Player player = players[i];
+            player.SpriteId = randomIndex;
+            player.GetComponent<SpriteRenderer>().sprite = Sprites[randomIndex];
+            // player random rotation x axis game_level * 5
+            player.transform.rotation = Quaternion.Euler(Random.Range(0, game_level * 10), 0, 0);
+            // change sprite render color to White
+            player.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
     public IEnumerator goodjob()
@@ -185,23 +190,14 @@ public class GameplayManager : MonoBehaviour
     List<Score> scores = new List<Score>();
     private IEnumerator SpawnScore()
     {
-        Score prevScore = null;
 
         while(!hasGameFinished)
         {
-            var tempScore = Instantiate(_scorePrefab);
+            yield return new WaitForSeconds(1f);
+            Score score = Instantiate(_scorePrefab);
+            // var tempScore = Instantiate(_scorePrefab);
             _scorePrefab.transform.localScale = new Vector3(4,4,4);
-            scores.Add(tempScore);
-            if(prevScore == null)
-            {
-                prevScore = tempScore;
-                CurrentScore = prevScore;
-            }
-            else
-            {
-                prevScore.NextScore = tempScore;
-                prevScore = tempScore;
-            }
+            scores.Add(score);
 
             yield return new WaitForSeconds(_spawnTime);
         }

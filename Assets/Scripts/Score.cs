@@ -21,7 +21,7 @@ public class Score : MonoBehaviour
         _moveSpeed = Random.Range(1.5f , 4.5f + gameplayManager.game_level*2);
         hasGameFinished = false;
         transform.position = new Vector3(-48.1f, Random.Range(-4, 16), 0);
-        int SpriteCount = Mathf.Min(GameplayManager.Instance.Sprites.Count - 15 + gameplayManager.game_level, 24);
+        int SpriteCount = Mathf.Min(GameplayManager.Instance.Sprites.Count - 18 + gameplayManager.game_level, 24);
         SpriteId = Random.Range(0, SpriteCount);
         GetComponent<SpriteRenderer>().sprite = GameplayManager.Instance.Sprites[SpriteId];
     }

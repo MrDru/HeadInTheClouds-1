@@ -87,6 +87,9 @@ public class GameplayManager : MonoBehaviour
                             if (player.SpriteId == score.SpriteId)
                             {
                                 no_player_match = true;
+                                player.SpriteId = -1;
+                                // change sprite render color to green
+                                player.GetComponent<SpriteRenderer>().color = Color.green;
                             }
                         }
                     if (no_player_match)
@@ -127,7 +130,7 @@ public class GameplayManager : MonoBehaviour
             players = start_players;
             List<int> randomList = new List<int>();
             int rangeMin = 0;
-            int rangeMax =  Mathf.Min(Sprites.Count - 15 + game_level*2, 24);
+            int rangeMax =  Mathf.Min(Sprites.Count - 18 + game_level*2, 24);
             while (randomList.Count < 3)
             {
                 int randomInt = Random.Range(rangeMin, rangeMax + 1);
@@ -145,6 +148,8 @@ public class GameplayManager : MonoBehaviour
                 player.GetComponent<SpriteRenderer>().sprite = Sprites[randomIndex];
                 // player random rotation x axis game_level * 5
                 player.transform.rotation = Quaternion.Euler(Random.Range(0, game_level * 10), 0, 0);
+                // change sprite render color to White
+                player.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
     }

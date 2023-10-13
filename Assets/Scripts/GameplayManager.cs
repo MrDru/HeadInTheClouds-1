@@ -20,6 +20,9 @@ public class GameplayManager : MonoBehaviour
     private Player matchingPlayer;
     private int level_counter;
     GameObject goodJob3xObject;
+    [SerializeField] private AudioClip Cloud_Select_Right;
+    [SerializeField] private AudioClip Cloud_Select_Wrong;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -44,6 +47,8 @@ public class GameplayManager : MonoBehaviour
         players = FindObjectsOfType<Player>();
         start_players = FindObjectsOfType<Player>();
         matchingPlayer = null;
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     #endregion
@@ -74,6 +79,7 @@ public class GameplayManager : MonoBehaviour
             bool no_player_match = false;
             foreach(var score in scores)
             {
+                if (hit.collider == null) continue;
                 if(score.gameObject == hit.collider.gameObject)
                 {
                     foreach (Player player in players)
@@ -103,9 +109,14 @@ public class GameplayManager : MonoBehaviour
                             UpdateScore();
                             // Destroy(matchingPlayer.gameObject);
                             Debug.Log("IN");
+                            audioSource.PlayOneShot(Cloud_Select_Right);
                             break;
                         }
                 }
+            }
+            if (!no_player_match)
+            {
+                audioSource.PlayOneShot(Cloud_Select_Wrong);
             }
         }
         if (level_counter == 3)

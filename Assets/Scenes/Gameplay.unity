@@ -1779,6 +1779,7 @@ MonoBehaviour:
   Sprites: []
   Cloud_Select_Right: {fileID: 8300000, guid: 25a39a32a89bb264295b4e3f4ae95c67, type: 3}
   Cloud_Select_Wrong: {fileID: 8300000, guid: ca5d3bf4b47e5804a9125541815ec555, type: 3}
+  isPaused: 0
   _scoreEffect: {fileID: 2999403012931729087, guid: fb2754def2d813444bf74d9788574b74, type: 3}
   _scoreText: {fileID: 1167614765}
   _pointClip: {fileID: 8300000, guid: 253d8ca0700930d49abfd54b79a089aa, type: 3}
@@ -1898,7 +1899,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1579118679
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1960,8 +1961,8 @@ Transform:
   m_GameObject: {fileID: 1579118677}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.1, y: -0.1665, z: 0}
-  m_LocalScale: {x: 11.293226, y: 11.293226, z: 11.293226}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8

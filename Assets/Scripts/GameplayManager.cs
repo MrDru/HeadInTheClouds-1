@@ -40,15 +40,20 @@ public class GameplayManager : MonoBehaviour
         // Create an instance of the GameManager class if it doesn't exist
         if (GameManager.Instance == null)
         {
-            GameManager.Instance = new GameManager();
+            GameManager.Instance = gameObject.AddComponent<GameManager>();
         }
         GameManager.Instance.IsInitialized = true;
 
         score_txt = 0;
         _scoreText.text = ((int)score_txt).ToString();
         StartCoroutine(SpawnScore());
+        // spawn 5 SpawnScore() for start
+        for (int i = 0; i < 9; i++)
+        {
+            SpawnScore_start();
+        }
         players = FindObjectsOfType<Player>();
-        start_players = FindObjectsOfType<Player>();
+        start_players = players;
         matchingPlayer = null;
         audioSource = GetComponent<AudioSource>();
         random_player();
@@ -112,7 +117,6 @@ public class GameplayManager : MonoBehaviour
                             scores.Remove(score);
                             UpdateScore();
                             // Destroy(matchingPlayer.gameObject);
-                            Debug.Log("IN");
                             audioSource.PlayOneShot(Cloud_Select_Right);
                             break;
                         }
@@ -123,7 +127,17 @@ public class GameplayManager : MonoBehaviour
                 audioSource.PlayOneShot(Cloud_Select_Wrong);
             }
         }
-        if (level_counter == 3)
+        // if player.GetComponent<SpriteRenderer>().color == Color.green for all players
+        bool all_green = true;
+        foreach (Player player in players)
+        {
+            if (player.GetComponent<SpriteRenderer>().color != Color.green)
+            {
+                all_green = false;
+                break;
+            }
+        }
+        if (all_green)
         {
             StartCoroutine(goodjob());
             game_level++;
@@ -152,11 +166,10 @@ public class GameplayManager : MonoBehaviour
             Player player = players[i];
             player.SpriteId = randomIndex;
             player.GetComponent<SpriteRenderer>().sprite = Sprites[randomIndex];
-            // player random rotation x axis game_level * 5
-            player.transform.rotation = Quaternion.Euler(Random.Range(0, game_level * 10), 0, 0);
             // change sprite render color to White
             player.GetComponent<SpriteRenderer>().color = Color.white;
         }
+        Debug.Log("random player list " + randomList[0] + " " + randomList[1] + " " + randomList[2]);
     }
     public IEnumerator goodjob()
     {
@@ -166,7 +179,6 @@ public class GameplayManager : MonoBehaviour
             yield return new WaitForSeconds(2);
             goodJob3xObject.SetActive(false);
         }
-        Debug.Log("goodjob");
     }
     #endregion
 
@@ -203,6 +215,13 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
+    private void SpawnScore_start()
+    {
+        Score score = Instantiate(_scorePrefab);
+        // var tempScore = Instantiate(_scorePrefab);
+        _scorePrefab.transform.localScale = new Vector3(4,4,4);
+        scores.Add(score);
+    }
     #endregion
 
     #region GAME_OVER

@@ -32,7 +32,7 @@ public class Score : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (hasGameFinished) return;
+        if (hasGameFinished || GameplayManager.Instance.isPaused) return;
         transform.Translate(_moveSpeed * Time.fixedDeltaTime * Vector3.right);
     }
 

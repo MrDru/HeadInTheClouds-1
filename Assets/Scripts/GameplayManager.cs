@@ -27,13 +27,15 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private AudioClip Cloud_Select_Right;
     [SerializeField] private AudioClip Cloud_Select_Wrong;
     private AudioSource audioSource;
+    private bool _firstTime = true;
+    public bool isPaused = false;
 
     private void Awake()
     {
         goodJob3xObject = GameObject.Find("good job3x");
         goodJob3xObject.SetActive(false);
         game_level = 1;
-        level_counter = 0;
+        level_counter = 3;
         Instance = this;
         Sprites = ThelistOfAllSprites.Instance.editableList;
         hasGameFinished = false;
@@ -62,6 +64,7 @@ public class GameplayManager : MonoBehaviour
     // Assuming you have a Player class with a SpriteId property
     private void Update()
     {
+        if (isPaused) return;
 
         for (int i = scores.Count - 1; i >= 0; i--)
         {
@@ -125,10 +128,16 @@ public class GameplayManager : MonoBehaviour
         }
         if (level_counter == 3)
         {
+            if (_firstTime)
+            {
+                _firstTime = false;
+                return;
+            }
             StartCoroutine(goodjob());
             game_level++;
             level_counter = 0;
-            random_player();
+            if (game_level < 5)
+                random_player();
         }
     }
     private void random_player()
@@ -160,10 +169,20 @@ public class GameplayManager : MonoBehaviour
     }
     public IEnumerator goodjob()
     {
+
+
         if (goodJob3xObject != null)
         {
-            goodJob3xObject.SetActive(true);
+            if (_firstTime)
+            {
+                _firstTime = false;
+            } else
+            {
+               goodJob3xObject.SetActive(true);
+            }
+
             yield return new WaitForSeconds(2);
+            if (game_level < 5)
             goodJob3xObject.SetActive(false);
         }
         Debug.Log("goodjob");

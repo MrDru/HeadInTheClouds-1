@@ -33,7 +33,8 @@ public class GameplayManager : MonoBehaviour
     private void Awake()
     {
         goodJob3xObject = GameObject.Find("good job3x");
-        goodJob3xObject.SetActive(false);
+        goodJob3xObject.GetComponent<SpriteRenderer>().enabled = false;
+        // goodJob3xObject.SetActive(false);
         game_level = 1;
         level_counter = 3;
         Instance = this;
@@ -59,6 +60,7 @@ public class GameplayManager : MonoBehaviour
         matchingPlayer = null;
         audioSource = GetComponent<AudioSource>();
         random_player();
+        _spawnTime = 0.7f;
     }
 
     #endregion
@@ -83,6 +85,7 @@ public class GameplayManager : MonoBehaviour
         if(Input.GetMouseButtonDown(0) && !hasGameFinished)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (mousePos.y < -10f) return;
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
             bool no_player_match = false;
@@ -142,16 +145,12 @@ public class GameplayManager : MonoBehaviour
         }
         if (all_green)
         {
-            if (_firstTime)
-            {
-                _firstTime = false;
-                return;
-            }
             StartCoroutine(goodjob());
             game_level++;
             level_counter = 0;
-            if (game_level < 5)
-                random_player();
+            _spawnTime = Mathf.Max(0.05f, _spawnTime -  0.05f);
+            Debug.Log("_spawnTime " + _spawnTime);
+            random_player();
         }
     }
     private void random_player()
@@ -159,7 +158,7 @@ public class GameplayManager : MonoBehaviour
         players = start_players;
         List<int> randomList = new List<int>();
         int rangeMin = 0;
-        int rangeMax =  Mathf.Min(Sprites.Count - 19 + game_level, 24);
+        int rangeMax =  Mathf.Min(Sprites.Count - 21 + game_level, Sprites.Count);
         while (randomList.Count < 3)
         {
             int randomInt = Random.Range(rangeMin, rangeMax + 1);
@@ -178,25 +177,14 @@ public class GameplayManager : MonoBehaviour
             // change sprite render color to White
             player.GetComponent<SpriteRenderer>().color = Color.white;
         }
-        Debug.Log("random player list " + randomList[0] + " " + randomList[1] + " " + randomList[2]);
     }
     public IEnumerator goodjob()
     {
-
-
         if (goodJob3xObject != null)
         {
-            if (_firstTime)
-            {
-                _firstTime = false;
-            } else
-            {
-               goodJob3xObject.SetActive(true);
-            }
-
+            goodJob3xObject.GetComponent<SpriteRenderer>().enabled = true;
             yield return new WaitForSeconds(2);
-            if (game_level < 5)
-            goodJob3xObject.SetActive(false);
+            goodJob3xObject.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
     #endregion
@@ -215,7 +203,7 @@ public class GameplayManager : MonoBehaviour
         _scoreText.text = ((int)score_txt).ToString();
     }
 
-    [SerializeField] private float _spawnTime;
+    private float _spawnTime;
     [SerializeField] private Score _scorePrefab;
     private Score CurrentScore;
     List<Score> scores = new List<Score>();

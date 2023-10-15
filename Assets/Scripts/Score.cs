@@ -21,14 +21,14 @@ public class Score : MonoBehaviour
         gameplayManager = gameplayManagerObject.GetComponent<GameplayManager>();
         int game_level = gameplayManager.get_game_level();
         // _moveSpeed = random 2 5
-        _moveSpeed = Random.Range(1.5f , 5f + gameplayManager.game_level);
+        _moveSpeed = Random.Range(1.5f , 5f);
         hasGameFinished = false;
         transform.position = new Vector3(-48.1f, Random.Range(-4, 16), 0);
-        // scale object random 4/(game_level*0.2) , 4
-        // transform.localScale = new Vector3(Random.Range(4 / (game_level * 0.2f), 4), Random.Range(4 / (game_level * 0.2f), 4), 1); 
+        // scale object random -game_level * 0.1f,0
+        // transform.localScale += new Vector3(Random.Range(-game_level * 0.2f, 0), Random.Range(-game_level * 0.2f, 0), 0);
         // player random rotation x axis game_level * 5
         // player.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, game_level * 10));
-        int SpriteCount = Mathf.Min(GameplayManager.Instance.Sprites.Count - 18 + gameplayManager.game_level, 24);
+        int SpriteCount = Mathf.Min(GameplayManager.Instance.Sprites.Count - 20 + gameplayManager.game_level, GameplayManager.Instance.Sprites.Count);
         SpriteId = Random.Range(0, SpriteCount);
         GetComponent<SpriteRenderer>().sprite = GameplayManager.Instance.Sprites[SpriteId];
     }

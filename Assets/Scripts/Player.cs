@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         gameplayManager = new GameplayManager();
-        int SpriteCount = Mathf.Min(GameplayManager.Instance.Sprites.Count - 19 + gameplayManager.game_level, 24);
+        int SpriteCount = Mathf.Min(GameplayManager.Instance.Sprites.Count - 21 + gameplayManager.game_level, GameplayManager.Instance.Sprites.Count);
         SpriteId = Random.Range(0, SpriteCount);
         GetComponent<SpriteRenderer>().sprite = GameplayManager.Instance.Sprites[SpriteId];
     }

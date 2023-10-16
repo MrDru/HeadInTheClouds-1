@@ -51,7 +51,7 @@ public class GameplayManager : MonoBehaviour
         _scoreText.text = ((int)score_txt).ToString();
         StartCoroutine(SpawnScore());
         // spawn 5 SpawnScore() for start
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 7; i++)
         {
             SpawnScore_start();
         }
@@ -59,7 +59,7 @@ public class GameplayManager : MonoBehaviour
         start_players = players;
         matchingPlayer = null;
         audioSource = GetComponent<AudioSource>();
-        _spawnTime = 0.7f;
+        _spawnTime = 1.2f;
         random_player();
     }
 
@@ -158,10 +158,10 @@ public class GameplayManager : MonoBehaviour
         players = start_players;
         List<int> randomList = new List<int>();
         int rangeMin = 0;
-        int rangeMax =  Mathf.Min(Sprites.Count - 21 + game_level, Sprites.Count);
+        int rangeMax =  Mathf.Min(Sprites.Count - 20 + game_level, Sprites.Count);
         while (randomList.Count < 3)
         {
-            int randomInt = Random.Range(rangeMin, rangeMax + 1);
+            int randomInt = Random.Range(rangeMin, rangeMax);
             if (!randomList.Contains(randomInt))
             {
                 randomList.Add(randomInt);

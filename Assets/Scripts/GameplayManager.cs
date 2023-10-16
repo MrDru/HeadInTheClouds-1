@@ -59,8 +59,8 @@ public class GameplayManager : MonoBehaviour
         start_players = players;
         matchingPlayer = null;
         audioSource = GetComponent<AudioSource>();
-        random_player();
         _spawnTime = 0.7f;
+        random_player();
     }
 
     #endregion
@@ -174,8 +174,8 @@ public class GameplayManager : MonoBehaviour
             Player player = players[i];
             player.SpriteId = randomIndex;
             player.GetComponent<SpriteRenderer>().sprite = Sprites[randomIndex];
-            // change sprite render color to White
-            player.GetComponent<SpriteRenderer>().color = Color.white;
+            // change sprite render color to magenta
+            player.GetComponent<SpriteRenderer>().color = Color.magenta;
         }
     }
     public IEnumerator goodjob()

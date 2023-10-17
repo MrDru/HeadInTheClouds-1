@@ -27,7 +27,6 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private AudioClip Cloud_Select_Right;
     [SerializeField] private AudioClip Cloud_Select_Wrong;
     private AudioSource audioSource;
-    private bool _firstTime = true;
     public bool isPaused = false;
 
     private void Awake()

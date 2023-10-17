@@ -218,7 +218,7 @@ public class GameplayManager : MonoBehaviour
         if (score_txt % 9 == 0 && !isPaused)
         {
             nextLevelPopup.transform.localScale = Vector3.zero;
-            nextLevelPopup.transform.DOScale(new Vector3(3.343827f, 3.343827f, 3.343827f), 0.5f).SetEase(Ease.InBounce);
+            nextLevelPopup.transform.DOScale(new Vector3(1, 1, 1), 0.5f).SetEase(Ease.InBounce);
             isPaused = true;
             Score[] scores2 = FindObjectsOfType<Score>();
             foreach (Score score in scores2)

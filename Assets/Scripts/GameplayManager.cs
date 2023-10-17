@@ -1,8 +1,10 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -28,11 +30,12 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private AudioClip Cloud_Select_Wrong;
     private AudioSource audioSource;
     public bool isPaused = false;
-
+    [SerializeField] private Transform nextLevelPopup;
     private void Awake()
     {
         goodJob3xObject = GameObject.Find("good job3x");
         goodJob3xObject.GetComponent<SpriteRenderer>().enabled = false;
+        nextLevelPopup.transform.localScale = Vector3.zero;
         // goodJob3xObject.SetActive(false);
         game_level = 1;
         level_counter = 3;
@@ -117,7 +120,11 @@ public class GameplayManager : MonoBehaviour
                             // get player component matching SpriteId from score.SpriteId
                             var t = Instantiate(_scoreEffect, score.gameObject.transform.position, Quaternion.identity);
                             t.Init(Sprites[score.SpriteId]);
-                            Destroy(score.gameObject);
+                            score.transform.DOPunchScale(new Vector3(1f, 1f, 1f), 0.2f).SetEase(Ease.OutBounce).OnComplete(() =>
+                            {
+                                Destroy(score.gameObject);
+                            });
+
                             // remove tempScore from scores list
                             scores.Remove(score);
                             UpdateScore();
@@ -179,11 +186,17 @@ public class GameplayManager : MonoBehaviour
     }
     public IEnumerator goodjob()
     {
-        if (goodJob3xObject != null)
+        if (goodJob3xObject != null && !(score_txt % 9 == 0))
         {
             goodJob3xObject.GetComponent<SpriteRenderer>().enabled = true;
-            yield return new WaitForSeconds(2);
-            goodJob3xObject.GetComponent<SpriteRenderer>().enabled = false;
+            goodJob3xObject.transform.localScale = Vector3.zero;
+            goodJob3xObject.transform.DOScale(new Vector3(6.7296f, 6.7296f, 6.7296f), 0.45f).SetEase(Ease.InOutSine);
+            yield return new WaitForSeconds(1.5f);
+            goodJob3xObject.transform.DOScale(new Vector3(0f, 0f, 0f), 0.35f).SetEase(Ease.InOutSine).OnComplete(() =>
+            {
+                goodJob3xObject.GetComponent<SpriteRenderer>().enabled = false;
+            });
+
         }
     }
     #endregion
@@ -200,6 +213,26 @@ public class GameplayManager : MonoBehaviour
         level_counter++;
         // SoundManager.Instance.PlaySound(_pointClip);
         _scoreText.text = ((int)score_txt).ToString();
+
+        //Show "Next level" popup
+        if (score_txt % 9 == 0 && !isPaused)
+        {
+            nextLevelPopup.transform.localScale = Vector3.zero;
+            nextLevelPopup.transform.DOScale(new Vector3(3.343827f, 3.343827f, 3.343827f), 0.5f).SetEase(Ease.InBounce);
+            isPaused = true;
+            Score[] scores2 = FindObjectsOfType<Score>();
+            foreach (Score score in scores2)
+            {
+                Destroy(score.gameObject);
+                scores.Remove(score);
+            }
+        }
+    }
+
+    public void OnPressedNextLevel()
+    {
+        nextLevelPopup.transform.DOScale(new Vector3(0, 0, 0), 0.5f).SetEase(Ease.OutBounce);
+        isPaused = false;
     }
 
     private float _spawnTime;
@@ -212,10 +245,13 @@ public class GameplayManager : MonoBehaviour
         while(!hasGameFinished)
         {
             yield return new WaitForSeconds(1f);
-            Score score = Instantiate(_scorePrefab);
-            // var tempScore = Instantiate(_scorePrefab);
-            _scorePrefab.transform.localScale = new Vector3(4,4,4);
-            scores.Add(score);
+            if (!isPaused)
+            {
+                Score score = Instantiate(_scorePrefab);
+                // var tempScore = Instantiate(_scorePrefab);
+                _scorePrefab.transform.localScale = new Vector3(4,4,4);
+                scores.Add(score);
+            }
 
             yield return new WaitForSeconds(_spawnTime);
         }
